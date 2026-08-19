@@ -1,6 +1,11 @@
 <x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+    <div class="mb-6 text-center">
+        <h1 class="text-lg font-semibold text-stone-900">Forgot your password?</h1>
+        <p class="text-sm text-stone-500">No problem — we'll email you a reset link</p>
+    </div>
+
+    <div class="mb-4 text-sm text-stone-500">
+        {{ __('Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
     </div>
 
     <!-- Session Status -->
