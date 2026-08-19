@@ -1,4 +1,9 @@
 <x-guest-layout>
+    <div class="mb-6 text-center">
+        <h1 class="text-lg font-semibold text-stone-900">Welcome back</h1>
+        <p class="text-sm text-stone-500">Sign in to manage the reception invitations</p>
+    </div>
+
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 

@@ -1,4 +1,9 @@
 <x-guest-layout>
+    <div class="mb-6 text-center">
+        <h1 class="text-lg font-semibold text-stone-900">Create an account</h1>
+        <p class="text-sm text-stone-500">Join David Reception's invitation management team</p>
+    </div>
+
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
