@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SuperAdmin\ContributorsController;
+use App\Http\Controllers\SuperAdmin\SettingsController;
 use App\Http\Controllers\SuperAdmin\UsersController;
 use App\Models\Contributor;
 use App\Models\Log;
@@ -28,6 +29,8 @@ Route::get('/dashboard', function () {
 
 Route::middleware(['auth', 'verified', 'role:superadmin'])->group(function () {
     Route::post('/users', [UsersController::class, 'create'])->name('users.store');
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
+    Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
 });
 
 Route::middleware(['auth', 'verified', 'role:admin|superadmin'])->group(function () {

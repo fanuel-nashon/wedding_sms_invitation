@@ -21,7 +21,14 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @role('superadmin')
+                        <x-nav-link :href="route('settings')" :active="request()->routeIs('settings')">
+                            {{ __('Settings') }}
+                        </x-nav-link>
+                    @endrole
                 </div>
+
+                
             </div>
 
             <!-- Settings Dropdown -->
@@ -76,6 +83,11 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            @role('superadmin')
+                <x-responsive-nav-link :href="route('settings')" :active="request()->routeIs('settings')">
+                    {{ __('Settings') }}
+                </x-responsive-nav-link>
+            @endrole
         </div>
 
         <!-- Responsive Settings Options -->

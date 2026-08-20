@@ -40,7 +40,11 @@
 
                         <div>
                             <x-input-label for="contributor_phone" :value="__('Phone Number')" />
-                            <x-text-input id="contributor_phone" name="phone_no" type="text" class="block mt-1 w-full" :value="old('phone_no', $contributor->phone_no)" required />
+                            <x-text-input id="contributor_phone" name="phone_no" type="text" inputmode="numeric" placeholder="255738234345"
+                                class="block mt-1 w-full" :value="old('phone_no', $contributor->phone_no)" required />
+                            <p class="mt-1 text-xs text-slate-500">
+                                {{ __('International format only, e.g. 255738234345 — no leading 0 or +.') }}
+                            </p>
                             <x-input-error :messages="$errors->get('phone_no')" class="mt-2" />
                         </div>
 

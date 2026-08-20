@@ -45,7 +45,11 @@
 
                         <div>
                             <x-input-label for="contributor_phone" :value="__('Phone Number')" />
-                            <x-text-input id="contributor_phone" name="phone_no" type="text" class="block mt-1 w-full" :value="old('phone_no')" required />
+                            <x-text-input id="contributor_phone" name="phone_no" type="text" inputmode="numeric" placeholder="255738234345"
+                                class="block mt-1 w-full" :value="old('phone_no')" required />
+                            <p class="mt-1 text-xs text-slate-500">
+                                {{ __('International format only, e.g. 255738234345 — no leading 0 or +.') }}
+                            </p>
                             <x-input-error :messages="$errors->get('phone_no')" class="mt-2" />
                         </div>
 
@@ -82,7 +86,7 @@
                 <div class="p-6 pl-7">
                     <h3 class="text-lg font-medium text-slate-900">{{ __('Import Contributors') }}</h3>
                     <p class="mt-1 text-sm text-slate-500">
-                        {{ __('Upload an .xlsx or .csv file with columns: name, phone_no, assigned_seats, status.') }}
+                        {{ __('Upload an .xlsx or .csv file with columns: name, phone_no, assigned_seats, status. Phone numbers must be in international format (e.g. 255738234345).') }}
                     </p>
 
                     <a href="{{ route('contributors.template') }}"

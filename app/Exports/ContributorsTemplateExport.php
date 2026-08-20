@@ -12,7 +12,7 @@ class ContributorsTemplateExport implements FromArray, WithHeadings
     public function array():array
     {
         return [
-            ['John Doe', '0710101010', 2, 'invited'],
+            ['John Doe', '255710101010', 2, 'invited'],
         ];
     }
 

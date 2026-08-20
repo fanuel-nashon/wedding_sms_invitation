@@ -6,7 +6,9 @@ use App\Exports\ContributorsTemplateExport;
 use App\Http\Controllers\Controller;
 use App\Imports\ContributorsImport;
 use App\Models\Contributor;
+use App\Rules\E164Phone;
 use App\Services\LoggerService;
+use App\Support\PhoneNumber;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
@@ -28,9 +30,13 @@ class ContributorsController extends Controller
 
     public function store(Request $request)
     {
+        $request->merge([
+            'phone_no' => PhoneNumber::normalize($request->input('phone_no')),
+        ]);
+
         $request->validate([
             'name' => 'required|string',
-            'phone_no' => 'required|string|unique:contributors,phone_no',
+            'phone_no' => ['required', 'string', new E164Phone(), Rule::unique('contributors', 'phone_no')],
             'assigned_seats' => 'required|integer|min:0',
             'status' => ['required', Rule::in(['not_invited', 'invited'])],
         ]);
@@ -91,9 +97,13 @@ class ContributorsController extends Controller
 
     public function update(Request $request, Contributor $contributor)
     {
+        $request->merge([
+            'phone_no' => PhoneNumber::normalize($request->input('phone_no')),
+        ]);
+
         $request->validate([
             'name' => 'required|string',
-            'phone_no' => ['required', 'string', Rule::unique('contributors', 'phone_no')->ignore($contributor->id)],
+            'phone_no' => ['required', 'string', new E164Phone(), Rule::unique('contributors', 'phone_no')->ignore($contributor->id)],
             'assigned_seats' => 'required|integer|min:0',
             'status' => ['required', Rule::in(['not_invited', 'invited'])],
         ]);
