@@ -14,8 +14,8 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans text-stone-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gradient-to-b from-rose-950 via-stone-900 to-stone-900">
+    <body class="font-sans text-slate-900 antialiased">
+        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gradient-to-b from-violet-950 via-slate-950 to-slate-950">
             <div class="flex flex-col items-center">
                 <a href="/" class="flex items-center justify-center h-16 w-16 rounded-full bg-amber-400/10 ring-1 ring-amber-400/40">
                     <x-application-logo class="w-8 h-8 fill-current text-amber-400" />

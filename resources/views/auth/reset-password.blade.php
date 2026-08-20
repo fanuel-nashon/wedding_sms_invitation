@@ -1,7 +1,7 @@
 <x-guest-layout>
     <div class="mb-6 text-center">
-        <h1 class="text-lg font-semibold text-stone-900">Reset your password</h1>
-        <p class="text-sm text-stone-500">Choose a new password for your account</p>
+        <h1 class="text-lg font-semibold text-slate-900">Reset your password</h1>
+        <p class="text-sm text-slate-500">Choose a new password for your account</p>
     </div>
 
     <form method="POST" action="{{ route('password.store') }}">

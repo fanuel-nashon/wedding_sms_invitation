@@ -1,20 +1,26 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center gap-3">
-            <span class="h-2 w-2 rounded-full bg-amber-400"></span>
-            <h2 class="font-semibold text-xl text-white leading-tight">
-                {{ __('Contributors') }}
-            </h2>
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div class="flex items-center gap-3">
+                <span class="h-2 w-2 rounded-full bg-amber-400"></span>
+                <h2 class="font-semibold text-xl text-white leading-tight">
+                    {{ __('Contributors') }}
+                </h2>
+            </div>
+            <a href="{{ route('contributors.list') }}"
+                class="inline-flex items-center justify-center px-4 py-2 bg-amber-400 border border-transparent rounded-md font-semibold text-xs text-slate-900 uppercase tracking-widest hover:bg-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
+                {{ __('View Guest List') }}
+            </a>
         </div>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="relative overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
-                <div class="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-amber-400 to-amber-600"></div>
+            <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                <div class="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-violet-400 to-violet-600"></div>
                 <div class="p-6 pl-7">
-                    <h3 class="text-lg font-medium text-stone-900">{{ __('Add Contributor') }}</h3>
-                    <p class="mt-1 text-sm text-stone-500">{{ __('Add a new guest to the reception list.') }}</p>
+                    <h3 class="text-lg font-medium text-slate-900">{{ __('Add Contributor') }}</h3>
+                    <p class="mt-1 text-sm text-slate-500">{{ __('Add a new guest to the reception list.') }}</p>
 
                     @if (session('success'))
                         <div class="mt-4 rounded-lg bg-emerald-50 border border-emerald-200 px-4 py-3 text-sm text-emerald-700">
@@ -52,7 +58,7 @@
                         <div>
                             <x-input-label for="contributor_status" :value="__('Status')" />
                             <select id="contributor_status" name="status" required
-                                class="block mt-1 w-full border-stone-300 focus:border-amber-500 focus:ring-amber-500 rounded-md shadow-sm">
+                                class="block mt-1 w-full border-slate-300 focus:border-amber-500 focus:ring-amber-500 rounded-md shadow-sm">
                                 @foreach (['not_invited', 'invited'] as $status)
                                     <option value="{{ $status }}" @selected(old('status', 'not_invited') === $status)>
                                         {{ ucfirst(str_replace('_', ' ', $status)) }}
@@ -71,11 +77,11 @@
                 </div>
             </div>
 
-            <div class="relative overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
-                <div class="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-amber-400 to-amber-600"></div>
+            <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                <div class="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-violet-400 to-violet-600"></div>
                 <div class="p-6 pl-7">
-                    <h3 class="text-lg font-medium text-stone-900">{{ __('Import Contributors') }}</h3>
-                    <p class="mt-1 text-sm text-stone-500">
+                    <h3 class="text-lg font-medium text-slate-900">{{ __('Import Contributors') }}</h3>
+                    <p class="mt-1 text-sm text-slate-500">
                         {{ __('Upload an .xlsx or .csv file with columns: name, phone_no, assigned_seats, status.') }}
                     </p>
 
@@ -84,19 +90,18 @@
                         {{ __('Download template') }}
                     </a>
 
-                    <form method="POST" action="{{ route('contributors.import') }}" enctype="multipart/form-data" class="mt-4 flex items-end gap-4">
+                    <form method="POST" action="{{ route('contributors.import') }}" enctype="multipart/form-data" class="mt-4 flex flex-col gap-4 sm:flex-row sm:items-end">
                         @csrf
                         <div class="flex-1">
                             <input type="file" name="file" accept=".xlsx,.xls,.csv" required
-                                class="block w-full text-sm text-stone-600 border border-stone-300 rounded-md shadow-sm focus:border-amber-500 focus:ring-amber-500" />
+                                class="block w-full text-sm text-slate-600 border border-slate-300 rounded-md shadow-sm focus:border-amber-500 focus:ring-amber-500" />
                             <x-input-error :messages="$errors->get('file')" class="mt-2" />
                         </div>
-                        <x-primary-button>{{ __('Import') }}</x-primary-button>
+                        <x-primary-button class="justify-center">{{ __('Import') }}</x-primary-button>
                     </form>
                 </div>
             </div>
 
-            @include('contributors._guest-list', ['contributors' => $contributors])
         </div>
     </div>
 </x-app-layout>

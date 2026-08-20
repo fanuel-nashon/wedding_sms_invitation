@@ -10,11 +10,11 @@
 
     <div class="py-12">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="relative overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
-                <div class="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-amber-400 to-amber-600"></div>
+            <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                <div class="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-violet-400 to-violet-600"></div>
                 <div class="p-6 pl-7">
-                    <h3 class="text-lg font-medium text-stone-900">{{ __('Edit Contributor') }}</h3>
-                    <p class="mt-1 text-sm text-stone-500">{{ __('Update this guest\'s details.') }}</p>
+                    <h3 class="text-lg font-medium text-slate-900">{{ __('Edit Contributor') }}</h3>
+                    <p class="mt-1 text-sm text-slate-500">{{ __('Update this guest\'s details.') }}</p>
 
                     @if (session('success'))
                         <div class="mt-4 rounded-lg bg-emerald-50 border border-emerald-200 px-4 py-3 text-sm text-emerald-700">
@@ -53,7 +53,7 @@
                         <div>
                             <x-input-label for="contributor_status" :value="__('Status')" />
                             <select id="contributor_status" name="status" required
-                                class="block mt-1 w-full border-stone-300 focus:border-amber-500 focus:ring-amber-500 rounded-md shadow-sm">
+                                class="block mt-1 w-full border-slate-300 focus:border-amber-500 focus:ring-amber-500 rounded-md shadow-sm">
                                 @foreach (['not_invited', 'invited'] as $status)
                                     <option value="{{ $status }}" @selected(old('status', $contributor->status) === $status)>
                                         {{ ucfirst(str_replace('_', ' ', $status)) }}
@@ -64,8 +64,8 @@
                         </div>
 
                         <div class="sm:col-span-2 flex items-center justify-end gap-3">
-                            <a href="{{ route('contributors.index') }}"
-                                class="inline-flex items-center px-4 py-2 bg-white border border-stone-300 rounded-md font-semibold text-xs text-stone-700 uppercase tracking-widest shadow-sm hover:bg-stone-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
+                            <a href="{{ route('contributors.list') }}"
+                                class="inline-flex items-center px-4 py-2 bg-white border border-slate-300 rounded-md font-semibold text-xs text-slate-700 uppercase tracking-widest shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
                                 {{ __('Cancel') }}
                             </a>
                             <x-primary-button>

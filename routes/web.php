@@ -32,6 +32,7 @@ Route::middleware(['auth', 'verified', 'role:superadmin'])->group(function () {
 
 Route::middleware(['auth', 'verified', 'role:admin|superadmin'])->group(function () {
     Route::get('/contributors', [ContributorsController::class, 'index'])->name('contributors.index');
+    Route::get('/contributors/list', [ContributorsController::class, 'list'])->name('contributors.list');
     Route::post('/contributors', [ContributorsController::class, 'store'])->name('contributors.store');
     Route::post('/contributors/import', [ContributorsController::class, 'import'])->name('contributors.import');
     Route::get('/contributors/template', [ContributorsController::class, 'template'])->name('contributors.template');

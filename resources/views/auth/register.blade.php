@@ -1,7 +1,7 @@
 <x-guest-layout>
     <div class="mb-6 text-center">
-        <h1 class="text-lg font-semibold text-stone-900">Create an account</h1>
-        <p class="text-sm text-stone-500">Join David Reception's invitation management team</p>
+        <h1 class="text-lg font-semibold text-slate-900">Create an account</h1>
+        <p class="text-sm text-slate-500">Join David Reception's invitation management team</p>
     </div>
 
     <form method="POST" action="{{ route('register') }}">
@@ -45,7 +45,7 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-stone-500 hover:text-stone-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500" href="{{ route('login') }}">
+            <a class="underline text-sm text-slate-500 hover:text-slate-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500" href="{{ route('login') }}">
                 {{ __('Already registered?') }}
             </a>
 

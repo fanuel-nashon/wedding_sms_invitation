@@ -16,7 +16,12 @@ class ContributorsController extends Controller
 {
     public function index()
     {
-        return view('contributors.index', [
+        return view('contributors.index');
+    }
+
+    public function list()
+    {
+        return view('contributors.list', [
             'contributors' => Contributor::orderBy('name')->paginate(15),
         ]);
     }
@@ -100,7 +105,7 @@ class ContributorsController extends Controller
 
             LoggerService::log('Contributors', auth()->user()->email, auth()->user()->name, 'Edited contributor: ' . $contributor->name);
 
-            return redirect()->route('contributors.index')->with('success', 'Contributor updated successfully');
+            return redirect()->route('contributors.list')->with('success', 'Contributor updated successfully');
         } catch (\Exception $e) {
             Log::alert('Failed to update contributor: ' . $e->getMessage());
             return back()->with('failure', 'Something went wrong, please try again later');

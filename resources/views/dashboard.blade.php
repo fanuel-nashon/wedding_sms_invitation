@@ -22,9 +22,9 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
             <!-- Stat cards -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 @foreach ($statCards as $card)
-                    <div class="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
+                    <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
                         <span class="flex items-center justify-center h-9 w-9 rounded-lg bg-amber-50">
                             @switch($card['icon'])
                                 @case('users')
@@ -54,8 +54,8 @@
                                     @break
                             @endswitch
                         </span>
-                        <p class="mt-3 text-2xl font-semibold text-stone-900">{{ $card['value'] }}</p>
-                        <p class="text-sm text-stone-500">{{ __($card['label']) }}</p>
+                        <p class="mt-3 text-2xl font-semibold text-slate-900">{{ $card['value'] }}</p>
+                        <p class="text-sm text-slate-500">{{ __($card['label']) }}</p>
                     </div>
                 @endforeach
             </div>
@@ -64,28 +64,28 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
                 <!-- Recent activity -->
-                <div class="lg:col-span-2 relative overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
-                    <div class="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-amber-400 to-amber-600"></div>
+                <div class="lg:col-span-2 relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                    <div class="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-violet-400 to-violet-600"></div>
                     <div class="p-6 pl-7">
-                        <h3 class="text-lg font-medium text-stone-900">{{ __('Recent Activity') }}</h3>
-                        <p class="mt-1 text-sm text-stone-500">{{ __('Latest actions taken across the system.') }}</p>
+                        <h3 class="text-lg font-medium text-slate-900">{{ __('Recent Activity') }}</h3>
+                        <p class="mt-1 text-sm text-slate-500">{{ __('Latest actions taken across the system.') }}</p>
 
                         <ul class="mt-6 space-y-5">
                             @forelse ($recentActivity as $log)
                                 <li class="flex gap-3">
                                     <span class="mt-1.5 h-2 w-2 rounded-full bg-amber-400 shrink-0"></span>
                                     <div class="min-w-0">
-                                        <p class="text-sm text-stone-800">
+                                        <p class="text-sm text-slate-800">
                                             <span class="font-medium">{{ $log->user_name }}</span>
                                             {{ $log->action }}
                                         </p>
-                                        <p class="text-xs text-stone-400">
+                                        <p class="text-xs text-slate-400">
                                             {{ $log->module }} &middot; {{ $log->action_time?->diffForHumans() }}
                                         </p>
                                     </div>
                                 </li>
                             @empty
-                                <li class="text-sm text-stone-500">{{ __('No recent activity yet.') }}</li>
+                                <li class="text-sm text-slate-500">{{ __('No recent activity yet.') }}</li>
                             @endforelse
                         </ul>
                     </div>
@@ -93,29 +93,29 @@
 
                 <!-- Sidebar -->
                 <div class="space-y-6">
-                    <div class="relative overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
-                        <div class="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-amber-400 to-amber-600"></div>
+                    <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                        <div class="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-violet-400 to-violet-600"></div>
                         <div class="p-6 pl-7">
                             <div class="flex items-center gap-3">
                                 <span class="flex items-center justify-center h-9 w-9 rounded-full bg-amber-50 ring-1 ring-amber-200">
                                     <x-application-logo class="h-4 w-4 fill-current text-amber-500" />
                                 </span>
                                 <div>
-                                    <p class="font-medium text-stone-900">{{ Auth::user()->name }}</p>
-                                    <p class="text-xs text-stone-500">
+                                    <p class="font-medium text-slate-900">{{ Auth::user()->name }}</p>
+                                    <p class="text-xs text-slate-500">
                                         {{ Auth::user()->getRoleNames()->map(fn ($r) => ucfirst($r))->implode(', ') ?: 'No role assigned' }}
                                     </p>
                                 </div>
                             </div>
-                            <p class="mt-4 text-sm text-stone-500">
+                            <p class="mt-4 text-sm text-slate-500">
                                 {{ __("Welcome back. Here's a snapshot of David's reception invitations.") }}
                             </p>
                         </div>
                     </div>
 
                     @role('superadmin')
-                        <div class="relative overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
-                            <div class="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-amber-400 to-amber-600"></div>
+                        <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                            <div class="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-violet-400 to-violet-600"></div>
                             <div class="p-6 pl-7">
                                 <div class="flex items-center gap-3">
                                     <span class="flex items-center justify-center h-9 w-9 rounded-lg bg-amber-50">
@@ -123,7 +123,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM3 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 019.374 21c-2.331 0-4.512-.645-6.374-1.766z" />
                                         </svg>
                                     </span>
-                                    <h3 class="text-base font-medium text-stone-900">
+                                    <h3 class="text-base font-medium text-slate-900">
                                         {{ __('Create User') }}
                                     </h3>
                                 </div>
@@ -158,7 +158,7 @@
                                     <div>
                                         <x-input-label for="user_password" :value="__('Password')" />
                                         <x-text-input id="user_password" name="password" type="password" class="block mt-1 w-full" required />
-                                        <p class="mt-1 text-xs text-stone-500">
+                                        <p class="mt-1 text-xs text-slate-500">
                                             {{ __('At least 8 characters, with upper & lower case, a number and a symbol.') }}
                                         </p>
                                         <x-input-error :messages="$errors->get('password')" class="mt-2" />
@@ -167,7 +167,7 @@
                                     <div>
                                         <x-input-label for="user_role" :value="__('Role')" />
                                         <select id="user_role" name="role" required
-                                            class="block mt-1 w-full border-stone-300 focus:border-amber-500 focus:ring-amber-500 rounded-md shadow-sm">
+                                            class="block mt-1 w-full border-slate-300 focus:border-amber-500 focus:ring-amber-500 rounded-md shadow-sm">
                                             <option value="" disabled selected>{{ __('Select a role') }}</option>
                                             @foreach ($roles as $role)
                                                 <option value="{{ $role->name }}" @selected(old('role') === $role->name)>
@@ -187,8 +187,8 @@
                     @endrole
 
                     @role('admin|superadmin')
-                        <div class="relative overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
-                            <div class="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-amber-400 to-amber-600"></div>
+                        <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                            <div class="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-violet-400 to-violet-600"></div>
                             <div class="p-6 pl-7">
                                 <div class="flex items-center gap-3">
                                     <span class="flex items-center justify-center h-9 w-9 rounded-lg bg-amber-50">
@@ -196,15 +196,15 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
                                         </svg>
                                     </span>
-                                    <h3 class="text-base font-medium text-stone-900">
+                                    <h3 class="text-base font-medium text-slate-900">
                                         {{ __('Contributors') }}
                                     </h3>
                                 </div>
-                                <p class="mt-2 text-sm text-stone-500">
+                                <p class="mt-2 text-sm text-slate-500">
                                     {{ __('View and manage the reception guest list.') }}
                                 </p>
                                 <a href="{{ route('contributors.index') }}"
-                                    class="mt-4 inline-flex w-full items-center justify-center px-4 py-2 bg-white border border-stone-300 rounded-md font-semibold text-xs text-stone-700 uppercase tracking-widest shadow-sm hover:bg-stone-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                    class="mt-4 inline-flex w-full items-center justify-center px-4 py-2 bg-white border border-slate-300 rounded-md font-semibold text-xs text-slate-700 uppercase tracking-widest shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition ease-in-out duration-150">
                                     {{ __('Manage Contributors') }}
                                 </a>
                             </div>
