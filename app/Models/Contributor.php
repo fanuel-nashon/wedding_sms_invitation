@@ -12,6 +12,8 @@ class Contributor extends Model
         'name',
         'phone_no',
         'assigned_seats',
-        'status'
+        'status',
+        'qr_code',
+        'text_code'
     ];
 }
