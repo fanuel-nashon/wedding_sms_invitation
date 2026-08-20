@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SuperAdmin\ContributorsController;
 use App\Http\Controllers\SuperAdmin\UsersController;
 use App\Models\Contributor;
 use App\Models\Log;
@@ -27,6 +28,15 @@ Route::get('/dashboard', function () {
 
 Route::middleware(['auth', 'verified', 'role:superadmin'])->group(function () {
     Route::post('/users', [UsersController::class, 'create'])->name('users.store');
+});
+
+Route::middleware(['auth', 'verified', 'role:admin|superadmin'])->group(function () {
+    Route::get('/contributors', [ContributorsController::class, 'index'])->name('contributors.index');
+    Route::post('/contributors', [ContributorsController::class, 'store'])->name('contributors.store');
+    Route::post('/contributors/import', [ContributorsController::class, 'import'])->name('contributors.import');
+    Route::get('/contributors/template', [ContributorsController::class, 'template'])->name('contributors.template');
+    Route::get('/contributors/{contributor}/edit', [ContributorsController::class, 'edit'])->name('contributors.edit');
+    Route::put('/contributors/{contributor}', [ContributorsController::class, 'update'])->name('contributors.update');
 });
 
 Route::middleware('auth')->group(function () {

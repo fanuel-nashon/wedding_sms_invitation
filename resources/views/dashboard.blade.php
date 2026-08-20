@@ -185,6 +185,31 @@
                             </div>
                         </div>
                     @endrole
+
+                    @role('admin|superadmin')
+                        <div class="relative overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
+                            <div class="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-amber-400 to-amber-600"></div>
+                            <div class="p-6 pl-7">
+                                <div class="flex items-center gap-3">
+                                    <span class="flex items-center justify-center h-9 w-9 rounded-lg bg-amber-50">
+                                        <svg class="w-4.5 h-4.5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+                                        </svg>
+                                    </span>
+                                    <h3 class="text-base font-medium text-stone-900">
+                                        {{ __('Contributors') }}
+                                    </h3>
+                                </div>
+                                <p class="mt-2 text-sm text-stone-500">
+                                    {{ __('View and manage the reception guest list.') }}
+                                </p>
+                                <a href="{{ route('contributors.index') }}"
+                                    class="mt-4 inline-flex w-full items-center justify-center px-4 py-2 bg-white border border-stone-300 rounded-md font-semibold text-xs text-stone-700 uppercase tracking-widest shadow-sm hover:bg-stone-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                    {{ __('Manage Contributors') }}
+                                </a>
+                            </div>
+                        </div>
+                    @endrole
                 </div>
             </div>
         </div>
