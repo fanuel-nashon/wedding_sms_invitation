@@ -21,10 +21,21 @@ class ContributorsController extends Controller
         return view('contributors.index');
     }
 
-    public function list()
+    public function list(Request $request)
     {
+        $contributors = Contributor::query()
+            ->when($request->filled('search'), function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request->input('search') . '%');
+            })
+            ->when($request->filled('status'), function ($query) use ($request) {
+                $query->where('status', $request->input('status'));
+            })
+            ->orderBy('name')
+            ->paginate(15)
+            ->withQueryString();
+
         return view('contributors.list', [
-            'contributors' => Contributor::orderBy('name')->paginate(15),
+            'contributors' => $contributors,
         ]);
     }
 
