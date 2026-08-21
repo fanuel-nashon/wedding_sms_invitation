@@ -7,10 +7,12 @@
                     {{ __('Guest List') }}
                 </h2>
             </div>
-            <a href="{{ route('contributors.index') }}"
-                class="inline-flex items-center justify-center px-4 py-2 bg-white border border-slate-300 rounded-md font-semibold text-xs text-slate-700 uppercase tracking-widest shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
-                {{ __('Add / Import Contributors') }}
-            </a>
+            @role('admin|superadmin')
+                <a href="{{ route('contributors.index') }}"
+                    class="inline-flex items-center justify-center px-4 py-2 bg-white border border-slate-300 rounded-md font-semibold text-xs text-slate-700 uppercase tracking-widest shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
+                    {{ __('Add / Import Contributors') }}
+                </a>
+            @endrole
         </div>
     </x-slot>
 
@@ -21,9 +23,9 @@
                 <div class="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-violet-400 to-violet-600"></div>
                 <div class="p-6 pl-7 flex flex-col gap-4 sm:flex-row sm:items-end">
                     <div class="flex-1">
-                        <x-input-label for="search" :value="__('Search by name')" />
+                        <x-input-label for="search" :value="__('Search by name or entry code')" />
                         <x-text-input id="search" name="search" type="text" class="block mt-1 w-full"
-                            value="{{ request('search') }}" placeholder="{{ __('e.g. Jane Doe') }}" />
+                            value="{{ request('search') }}" placeholder="{{ __('e.g. Jane Doe or ROTEAFOF') }}" />
                     </div>
 
                     <div class="sm:w-48">

@@ -51,6 +51,13 @@
                             <x-input-error :messages="$errors->get('sms_sender_id')" class="mt-2" />
                         </div>
 
+                        <div class="sm:col-span-2">
+                            <x-input-label for="sms_url" :value="__('API Base URL')" />
+                            <x-text-input id="sms_url" name="sms_url" type="text" class="block mt-1 w-full"
+                                placeholder="https://messaging-service.co.tz/" :value="old('sms_url', $settings->sms_url)" required />
+                            <x-input-error :messages="$errors->get('sms_url')" class="mt-2" />
+                        </div>
+
                         <div>
                             <x-input-label for="sms_token" :value="__('API Token')" />
                             <x-text-input id="sms_token" name="sms_token" type="password" class="block mt-1 w-full"

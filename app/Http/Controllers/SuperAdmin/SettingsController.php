@@ -17,6 +17,7 @@ class SettingsController extends Controller
             'sms_username' => '',
             'sms_password' => '',
             'sms_sender_id' => '',
+            'sms_url' => '',
         ]);
 
         return view('settings.index', compact('settings'));
@@ -27,6 +28,7 @@ class SettingsController extends Controller
         $request->validate([
             'sms_username' => 'required|string',
             'sms_sender_id' => 'required|string',
+            'sms_url' => 'required|url',
             'sms_token' => 'nullable|string',
             'sms_password' => 'nullable|string',
         ]);
@@ -36,11 +38,13 @@ class SettingsController extends Controller
             'sms_username' => '',
             'sms_password' => '',
             'sms_sender_id' => '',
+            'sms_url' => '',
         ]);
 
         try {
             $settings->sms_username = $request->sms_username;
             $settings->sms_sender_id = $request->sms_sender_id;
+            $settings->sms_url = $request->sms_url;
 
             if ($request->filled('sms_token')) {
                 $settings->sms_token = $request->sms_token;

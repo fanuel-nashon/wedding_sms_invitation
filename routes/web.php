@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\SmsController;
+use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SuperAdmin\ContributorsController;
 use App\Http\Controllers\SuperAdmin\SettingsController;
@@ -35,12 +37,25 @@ Route::middleware(['auth', 'verified', 'role:superadmin'])->group(function () {
 
 Route::middleware(['auth', 'verified', 'role:admin|superadmin'])->group(function () {
     Route::get('/contributors', [ContributorsController::class, 'index'])->name('contributors.index');
-    Route::get('/contributors/list', [ContributorsController::class, 'list'])->name('contributors.list');
     Route::post('/contributors', [ContributorsController::class, 'store'])->name('contributors.store');
     Route::post('/contributors/import', [ContributorsController::class, 'import'])->name('contributors.import');
     Route::get('/contributors/template', [ContributorsController::class, 'template'])->name('contributors.template');
     Route::get('/contributors/{contributor}/edit', [ContributorsController::class, 'edit'])->name('contributors.edit');
     Route::put('/contributors/{contributor}', [ContributorsController::class, 'update'])->name('contributors.update');
+    Route::post('/contributors/{contributor}/send-sms', [SmsController::class, 'sendSms'])->name('contributors.send-sms');
+});
+
+Route::middleware(['auth', 'verified', 'role:admin|superadmin|checker'])->group(function () {
+    Route::get('/contributors/list', [ContributorsController::class, 'list'])->name('contributors.list');
+    Route::post('/contributors/{contributor}/attend', [ContributorsController::class, 'markAttended'])->name('contributors.attend');
+    Route::patch('/contributors/{contributor}/seats', [ContributorsController::class, 'updateSeats'])->name('contributors.seats');
+});
+
+Route::get('/invitations/{code}', [InvitationController::class, 'show'])->name('invitations.show');
+
+Route::middleware(['auth', 'verified', 'role:checker|admin|superadmin'])->group(function () {
+    Route::get('/verify/{code}', [InvitationController::class, 'verify'])->name('invitations.verify');
+    Route::post('/verify/{code}', [InvitationController::class, 'confirm'])->name('invitations.confirm');
 });
 
 Route::middleware('auth')->group(function () {

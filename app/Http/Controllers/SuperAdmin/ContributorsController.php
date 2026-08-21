@@ -25,7 +25,11 @@ class ContributorsController extends Controller
     {
         $contributors = Contributor::query()
             ->when($request->filled('search'), function ($query) use ($request) {
-                $query->where('name', 'like', '%' . $request->input('search') . '%');
+                $search = $request->input('search');
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('text_code', 'like', '%' . $search . '%');
+                });
             })
             ->when($request->filled('status'), function ($query) use ($request) {
                 $query->where('status', $request->input('status'));
@@ -37,6 +41,32 @@ class ContributorsController extends Controller
         return view('contributors.list', [
             'contributors' => $contributors,
         ]);
+    }
+
+    public function markAttended(Contributor $contributor)
+    {
+        if ($contributor->status !== 'attended') {
+            $contributor->status = 'attended';
+            $contributor->save();
+
+            LoggerService::log('Verification', auth()->user()->email, auth()->user()->name, 'Confirmed attendance: ' . $contributor->name);
+        }
+
+        return back()->with('success', 'Attendance confirmed for ' . $contributor->name);
+    }
+
+    public function updateSeats(Request $request, Contributor $contributor)
+    {
+        $request->validate([
+            'assigned_seats' => 'required|integer|min:0',
+        ]);
+
+        $contributor->assigned_seats = $request->assigned_seats;
+        $contributor->save();
+
+        LoggerService::log('Contributors', auth()->user()->email, auth()->user()->name, 'Updated seats for ' . $contributor->name . ' to ' . $contributor->assigned_seats);
+
+        return back()->with('success', 'Seats updated for ' . $contributor->name);
     }
 
     public function store(Request $request)

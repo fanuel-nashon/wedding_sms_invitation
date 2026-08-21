@@ -4,6 +4,18 @@
         <h3 class="text-lg font-medium text-slate-900">{{ __('Guest List') }}</h3>
         <p class="mt-1 text-sm text-slate-500">{{ __('All contributors invited to the reception.') }}</p>
 
+        @if (session('success'))
+            <div class="mt-4 rounded-lg bg-emerald-50 border border-emerald-200 px-4 py-3 text-sm text-emerald-700">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('failure'))
+            <div class="mt-4 rounded-lg bg-rose-50 border border-rose-200 px-4 py-3 text-sm text-rose-700">
+                {{ session('failure') }}
+            </div>
+        @endif
+
         @php
             $statusStyles = [
                 'not_invited' => 'bg-slate-100 text-slate-600',
@@ -31,20 +43,47 @@
                         </span>
                     </div>
 
-                    <p class="mt-3 text-sm text-slate-500">
-                        {{ __('Seats') }}: <span class="font-medium text-slate-700 tabular-nums">{{ $contributor->assigned_seats }}</span>
-                    </p>
+                    <form method="POST" action="{{ route('contributors.seats', $contributor) }}" class="mt-3 flex items-center gap-2">
+                        @csrf
+                        @method('PATCH')
+                        <label for="seats_{{ $contributor->id }}_m" class="text-sm text-slate-500">{{ __('Seats') }}</label>
+                        <input id="seats_{{ $contributor->id }}_m" type="number" name="assigned_seats" min="0"
+                            value="{{ $contributor->assigned_seats }}"
+                            class="w-16 text-right text-sm border-slate-300 rounded-md shadow-sm focus:border-amber-500 focus:ring-amber-500" />
+                        <button type="submit" class="text-xs font-semibold uppercase tracking-widest text-amber-600 hover:text-amber-700">
+                            {{ __('Save') }}
+                        </button>
+                    </form>
 
-                    <div class="mt-3 flex gap-2">
-                        <a href="{{ route('contributors.edit', $contributor) }}"
-                            class="flex-1 inline-flex items-center justify-center px-3 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 border border-slate-300 rounded-md shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
-                            {{ __('Edit') }}
-                        </a>
-                        @if ($contributor->status === 'invited')
+                    <div class="mt-3 flex flex-wrap gap-2">
+                        @role('admin|superadmin')
                             <a href="{{ route('contributors.edit', $contributor) }}"
                                 class="flex-1 inline-flex items-center justify-center px-3 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 border border-slate-300 rounded-md shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
-                                {{ __('Send Card') }}
+                                {{ __('Edit') }}
                             </a>
+                            @if ($contributor->status === 'invited')
+                                <form method="POST" action="{{ route('contributors.send-sms', $contributor) }}" class="flex-1">
+                                    @csrf
+                                    <button type="submit"
+                                        class="w-full inline-flex items-center justify-center px-3 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 border border-slate-300 rounded-md shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
+                                        {{ __('Send SMS') }}
+                                    </button>
+                                </form>
+                            @endif
+                        @endrole
+
+                        @if ($contributor->status === 'invited')
+                            <form method="POST" action="{{ route('contributors.attend', $contributor) }}" class="flex-1">
+                                @csrf
+                                <button type="submit"
+                                    class="w-full inline-flex items-center justify-center px-3 py-2 text-xs font-semibold uppercase tracking-widest text-emerald-700 border border-emerald-300 rounded-md shadow-sm hover:bg-emerald-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+                                    {{ __('Confirm Attended') }}
+                                </button>
+                            </form>
+                        @elseif ($contributor->status === 'attended')
+                            <span class="flex-1 inline-flex items-center justify-center text-xs font-medium text-emerald-600">
+                                {{ __('Checked in') }}
+                            </span>
                         @endif
                     </div>
                 </div>
@@ -76,25 +115,56 @@
                             <td class="py-3 pl-4 pr-3 text-right text-slate-400 tabular-nums">{{ $rowNumber }}</td>
                             <td class="py-3 pr-4 font-medium text-slate-900 whitespace-nowrap">{{ $contributor->name }}</td>
                             <td class="py-3 pr-4 text-slate-500 whitespace-nowrap tabular-nums">{{ $contributor->phone_no }}</td>
-                            <td class="py-3 pr-4 text-right text-slate-700 tabular-nums">{{ $contributor->assigned_seats }}</td>
+                            <td class="py-3 pr-4 text-right">
+                                <form method="POST" action="{{ route('contributors.seats', $contributor) }}" class="flex items-center justify-end gap-1">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="number" name="assigned_seats" min="0" value="{{ $contributor->assigned_seats }}"
+                                        class="w-16 text-right text-sm border-slate-300 rounded-md shadow-sm focus:border-amber-500 focus:ring-amber-500" />
+                                    <button type="submit" class="text-xs font-semibold uppercase tracking-widest text-amber-600 hover:text-amber-700">
+                                        {{ __('Save') }}
+                                    </button>
+                                </form>
+                            </td>
                             <td class="py-3 pr-4">
                                 <span class="inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium {{ $statusStyles[$contributor->status] ?? 'bg-slate-100 text-slate-600' }}">
                                     {{ ucfirst(str_replace('_', ' ', $contributor->status)) }}
                                 </span>
                             </td>
                             <td class="py-3 pr-4 text-right">
-                                <a href="{{ route('contributors.edit', $contributor) }}"
-                                    class="inline-flex items-center px-3 py-1 text-xs font-semibold uppercase tracking-widest text-slate-700 border border-slate-300 rounded-md shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
-                                    {{ __('Edit') }}
-                                </a>
-                            </td>
-                            <td class="py-3 pr-4 text-right">
-                                @if ($contributor->status === 'invited')
+                                @role('admin|superadmin')
                                     <a href="{{ route('contributors.edit', $contributor) }}"
                                         class="inline-flex items-center px-3 py-1 text-xs font-semibold uppercase tracking-widest text-slate-700 border border-slate-300 rounded-md shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
-                                        {{ __('Send Card') }}
+                                        {{ __('Edit') }}
                                     </a>
-                                @endif
+                                @endrole
+                            </td>
+                            <td class="py-3 pr-4 text-right">
+                                <div class="flex items-center justify-end gap-2">
+                                    @role('admin|superadmin')
+                                        @if ($contributor->status === 'invited')
+                                            <form method="POST" action="{{ route('contributors.send-sms', $contributor) }}">
+                                                @csrf
+                                                <button type="submit"
+                                                    class="inline-flex items-center px-3 py-1 text-xs font-semibold uppercase tracking-widest text-slate-700 border border-slate-300 rounded-md shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
+                                                    {{ __('Send SMS') }}
+                                                </button>
+                                            </form>
+                                        @endif
+                                    @endrole
+
+                                    @if ($contributor->status === 'invited')
+                                        <form method="POST" action="{{ route('contributors.attend', $contributor) }}">
+                                            @csrf
+                                            <button type="submit"
+                                                class="inline-flex items-center px-3 py-1 text-xs font-semibold uppercase tracking-widest text-emerald-700 border border-emerald-300 rounded-md shadow-sm hover:bg-emerald-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+                                                {{ __('Confirm Attended') }}
+                                            </button>
+                                        </form>
+                                    @elseif ($contributor->status === 'attended')
+                                        <span class="text-xs font-medium text-emerald-600">{{ __('Checked in') }}</span>
+                                    @endif
+                                </div>
                             </td>
                         </tr>
                     @empty

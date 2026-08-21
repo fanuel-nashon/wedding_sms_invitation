@@ -186,7 +186,7 @@
                         </div>
                     @endrole
 
-                    @role('admin|superadmin')
+                    @role('admin|superadmin|checker')
                         <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
                             <div class="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-violet-400 to-violet-600"></div>
                             <div class="p-6 pl-7">
@@ -203,10 +203,17 @@
                                 <p class="mt-2 text-sm text-slate-500">
                                     {{ __('View and manage the reception guest list.') }}
                                 </p>
-                                <a href="{{ route('contributors.index') }}"
-                                    class="mt-4 inline-flex w-full items-center justify-center px-4 py-2 bg-white border border-slate-300 rounded-md font-semibold text-xs text-slate-700 uppercase tracking-widest shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                                    {{ __('Manage Contributors') }}
-                                </a>
+                                @role('admin|superadmin')
+                                    <a href="{{ route('contributors.index') }}"
+                                        class="mt-4 inline-flex w-full items-center justify-center px-4 py-2 bg-white border border-slate-300 rounded-md font-semibold text-xs text-slate-700 uppercase tracking-widest shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                        {{ __('Manage Contributors') }}
+                                    </a>
+                                @else
+                                    <a href="{{ route('contributors.list') }}"
+                                        class="mt-4 inline-flex w-full items-center justify-center px-4 py-2 bg-white border border-slate-300 rounded-md font-semibold text-xs text-slate-700 uppercase tracking-widest shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                        {{ __('Check In Guests') }}
+                                    </a>
+                                @endrole
                             </div>
                         </div>
                     @endrole

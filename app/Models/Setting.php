@@ -12,7 +12,8 @@ class Setting extends Model
         'sms_token',
         'sms_username',
         'sms_password',
-        'sms_sender_id'
+        'sms_sender_id',
+        'sms_url'
     ];
 
     protected $casts = [
