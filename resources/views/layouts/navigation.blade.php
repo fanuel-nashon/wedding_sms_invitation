@@ -25,6 +25,9 @@
                         <x-nav-link :href="route('settings')" :active="request()->routeIs('settings')">
                             {{ __('Settings') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('logs.index')" :active="request()->routeIs('logs.index')">
+                            {{ __('Logs') }}
+                        </x-nav-link>
                     @endrole
                 </div>
 
@@ -86,6 +89,9 @@
             @role('superadmin')
                 <x-responsive-nav-link :href="route('settings')" :active="request()->routeIs('settings')">
                     {{ __('Settings') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('logs.index')" :active="request()->routeIs('logs.index')">
+                    {{ __('Logs') }}
                 </x-responsive-nav-link>
             @endrole
         </div>

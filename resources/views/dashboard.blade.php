@@ -67,8 +67,17 @@
                 <div class="lg:col-span-2 relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
                     <div class="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-violet-400 to-violet-600"></div>
                     <div class="p-6 pl-7">
-                        <h3 class="text-lg font-medium text-slate-900">{{ __('Recent Activity') }}</h3>
-                        <p class="mt-1 text-sm text-slate-500">{{ __('Latest actions taken across the system.') }}</p>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="text-lg font-medium text-slate-900">{{ __('Recent Activity') }}</h3>
+                                <p class="mt-1 text-sm text-slate-500">{{ __('Latest actions taken across the system.') }}</p>
+                            </div>
+                            @role('superadmin')
+                                <a href="{{ route('logs.index') }}" class="shrink-0 text-xs font-semibold uppercase tracking-widest text-amber-600 hover:text-amber-700">
+                                    {{ __('View All') }}
+                                </a>
+                            @endrole
+                        </div>
 
                         <ul class="mt-6 space-y-5">
                             @forelse ($recentActivity as $log)

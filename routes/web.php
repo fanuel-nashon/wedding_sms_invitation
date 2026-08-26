@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\SmsController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SuperAdmin\ContributorsController;
+use App\Http\Controllers\SuperAdmin\LogsController;
 use App\Http\Controllers\SuperAdmin\SettingsController;
 use App\Http\Controllers\SuperAdmin\UsersController;
 use App\Models\Contributor;
@@ -33,6 +34,7 @@ Route::middleware(['auth', 'verified', 'role:superadmin'])->group(function () {
     Route::post('/users', [UsersController::class, 'create'])->name('users.store');
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
     Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
+    Route::get('/logs', [LogsController::class, 'index'])->name('logs.index');
 });
 
 Route::middleware(['auth', 'verified', 'role:admin|superadmin'])->group(function () {
