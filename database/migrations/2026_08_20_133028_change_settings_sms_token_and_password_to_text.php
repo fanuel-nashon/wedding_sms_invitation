@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -10,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::statement('ALTER TABLE settings ALTER COLUMN sms_token TYPE TEXT');
-        DB::statement('ALTER TABLE settings ALTER COLUMN sms_password TYPE TEXT');
+        Schema::table('settings', function (Blueprint $table) {
+            $table->text('sms_token')->change();
+            $table->text('sms_password')->change();
+        });
     }
 
     /**
@@ -19,7 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::statement('ALTER TABLE settings ALTER COLUMN sms_token TYPE VARCHAR(255)');
-        DB::statement('ALTER TABLE settings ALTER COLUMN sms_password TYPE VARCHAR(255)');
+        Schema::table('settings', function (Blueprint $table) {
+            $table->string('sms_token')->change();
+            $table->string('sms_password')->change();
+        });
     }
 };
