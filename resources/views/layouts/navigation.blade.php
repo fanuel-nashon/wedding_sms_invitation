@@ -21,6 +21,11 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @role('admin|superadmin|checker')
+                        <x-nav-link :href="route('contributors.list')" :active="request()->routeIs('contributors.list')">
+                            {{ __('Guest List') }}
+                        </x-nav-link>
+                    @endrole
                     @role('superadmin')
                         <x-nav-link :href="route('settings')" :active="request()->routeIs('settings')">
                             {{ __('Settings') }}
@@ -86,6 +91,11 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            @role('admin|superadmin|checker')
+                <x-responsive-nav-link :href="route('contributors.list')" :active="request()->routeIs('contributors.list')">
+                    {{ __('Guest List') }}
+                </x-responsive-nav-link>
+            @endrole
             @role('superadmin')
                 <x-responsive-nav-link :href="route('settings')" :active="request()->routeIs('settings')">
                     {{ __('Settings') }}
