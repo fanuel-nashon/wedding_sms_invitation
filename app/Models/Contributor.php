@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class Contributor extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'contributors';
 
     protected $fillable = [

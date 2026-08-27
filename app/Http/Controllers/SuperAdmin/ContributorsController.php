@@ -163,4 +163,44 @@ class ContributorsController extends Controller
         }
     }
 
+    public function destroy(Contributor $contributor)
+    {
+        $name = $contributor->name;
+
+        $contributor->delete();
+
+        LoggerService::log('Contributors', auth()->user()->email, auth()->user()->name, 'Deleted contributor: ' . $name);
+
+        return redirect()->route('contributors.list')->with('success', 'Contributor deleted: ' . $name);
+    }
+
+    public function trashed(Request $request)
+    {
+        $contributors = Contributor::onlyTrashed()
+            ->when($request->filled('search'), function ($query) use ($request) {
+                $search = $request->input('search');
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('text_code', 'like', '%' . $search . '%');
+                });
+            })
+            ->orderByDesc('deleted_at')
+            ->paginate(15)
+            ->withQueryString();
+
+        return view('contributors.trashed', [
+            'contributors' => $contributors,
+        ]);
+    }
+
+    public function restore($id)
+    {
+        $contributor = Contributor::onlyTrashed()->findOrFail($id);
+        $contributor->restore();
+
+        LoggerService::log('Contributors', auth()->user()->email, auth()->user()->name, 'Restored contributor: ' . $contributor->name);
+
+        return back()->with('success', 'Contributor restored: ' . $contributor->name);
+    }
+
 }

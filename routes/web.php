@@ -44,7 +44,13 @@ Route::middleware(['auth', 'verified', 'role:admin|superadmin'])->group(function
     Route::get('/contributors/template', [ContributorsController::class, 'template'])->name('contributors.template');
     Route::get('/contributors/{contributor}/edit', [ContributorsController::class, 'edit'])->name('contributors.edit');
     Route::put('/contributors/{contributor}', [ContributorsController::class, 'update'])->name('contributors.update');
+    Route::delete('/contributors/{contributor}', [ContributorsController::class, 'destroy'])->name('contributors.destroy');
     Route::post('/contributors/{contributor}/send-sms', [SmsController::class, 'sendSms'])->name('contributors.send-sms');
+});
+
+Route::middleware(['auth', 'verified', 'role:superadmin'])->group(function () {
+    Route::get('/contributors/trashed', [ContributorsController::class, 'trashed'])->name('contributors.trashed');
+    Route::post('/contributors/{id}/restore', [ContributorsController::class, 'restore'])->name('contributors.restore');
 });
 
 Route::middleware(['auth', 'verified', 'role:admin|superadmin|checker'])->group(function () {
