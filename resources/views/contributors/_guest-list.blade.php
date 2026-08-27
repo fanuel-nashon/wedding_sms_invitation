@@ -61,15 +61,6 @@
                                 class="flex-1 inline-flex items-center justify-center px-3 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 border border-slate-300 rounded-md shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
                                 {{ __('Edit') }}
                             </a>
-                            <form method="POST" action="{{ route('contributors.destroy', $contributor) }}" class="flex-1"
-                                onsubmit="return confirm('{{ __('Delete this contributor? This can be undone by a superadmin.') }}');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                    class="w-full inline-flex items-center justify-center px-3 py-2 text-xs font-semibold uppercase tracking-widest text-rose-700 border border-rose-300 rounded-md shadow-sm hover:bg-rose-50 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2">
-                                    {{ __('Delete') }}
-                                </button>
-                            </form>
                             @if ($contributor->status === 'invited')
                                 <form method="POST" action="{{ route('contributors.send-sms', $contributor) }}" class="flex-1">
                                     @csrf
@@ -79,6 +70,18 @@
                                     </button>
                                 </form>
                             @endif
+                        @endrole
+
+                        @role('superadmin')
+                            <form method="POST" action="{{ route('contributors.destroy', $contributor) }}" class="flex-1"
+                                onsubmit="return confirm('{{ __('Delete this contributor? This can be undone by a superadmin.') }}');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                    class="w-full inline-flex items-center justify-center px-3 py-2 text-xs font-semibold uppercase tracking-widest text-rose-700 border border-rose-300 rounded-md shadow-sm hover:bg-rose-50 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2">
+                                    {{ __('Delete') }}
+                                </button>
+                            </form>
                         @endrole
 
                         @if ($contributor->status === 'invited')
@@ -147,6 +150,8 @@
                                             class="inline-flex items-center px-3 py-1 text-xs font-semibold uppercase tracking-widest text-slate-700 border border-slate-300 rounded-md shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
                                             {{ __('Edit') }}
                                         </a>
+                                    @endrole
+                                    @role('superadmin')
                                         <form method="POST" action="{{ route('contributors.destroy', $contributor) }}"
                                             onsubmit="return confirm('{{ __('Delete this contributor? This can be undone by a superadmin.') }}');">
                                             @csrf
