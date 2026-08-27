@@ -15,7 +15,11 @@ class SmsController extends Controller
         $code = $contributor->ensureInvitationCode();
         $name = mb_strtoupper($contributor->name);
         $seats = $contributor->assigned_seats;
-        $seatLabel = $seats === 1 ? "Kiti - {$seats}" : "Viti {$seats}";
+        $seatLabel = match ($seats) {
+            1 => 'Single',
+            2 => 'Double',
+            default => "Viti {$seats}",
+        };
         $codeDisplay = "{$code} - {$seatLabel}";
 
         return <<<TEXT
@@ -25,15 +29,15 @@ class SmsController extends Controller
 
             Kwenye Sherehe ya Mapokezi (Reception) ya kijana wao mpendwa
                 David Sanawa Nashon
-            Itakayofanyika tarehe 30 Agosti 2026 kuanzia saa 12:30 jioni, kwenye ukumbi wa Destiny Hall - Kwa Matias, Kibaha-Pwani
+            Itakayofanyika tarehe 30 Agosti 2026 kuanzia saa 12:00 jioni, kwenye ukumbi wa Destiny Hall - Kwa Mathias, Kibaha-Pwani
 
                 Code ya kadi yako ni: {$codeDisplay}
             Tafadhali taja/onesha kadi mara tu ufikapo ukumbini
 
             Kwa mawasiliano Zaidi (RSVP)
 
-            0718264942
-            0655820050
+            0654479492
+            0790511519
 
             Location: https://maps.app.goo.gl/i3btKsTKcEbkuFnd6
             TEXT;
