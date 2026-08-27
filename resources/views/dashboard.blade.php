@@ -213,10 +213,16 @@
                                     {{ __('View and manage the reception guest list.') }}
                                 </p>
                                 @role('admin|superadmin')
-                                    <a href="{{ route('contributors.index') }}"
-                                        class="mt-4 inline-flex w-full items-center justify-center px-4 py-2 bg-white border border-slate-300 rounded-md font-semibold text-xs text-slate-700 uppercase tracking-widest shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                                        {{ __('Manage Contributors') }}
-                                    </a>
+                                    <div class="mt-4 flex flex-col gap-2">
+                                        <a href="{{ route('contributors.list') }}"
+                                            class="inline-flex w-full items-center justify-center px-4 py-2 bg-amber-400 border border-transparent rounded-md font-semibold text-xs text-slate-900 uppercase tracking-widest hover:bg-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                            {{ __('View Guest List') }}
+                                        </a>
+                                        <a href="{{ route('contributors.index') }}"
+                                            class="inline-flex w-full items-center justify-center px-4 py-2 bg-white border border-slate-300 rounded-md font-semibold text-xs text-slate-700 uppercase tracking-widest shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                            {{ __('Manage Contributors') }}
+                                        </a>
+                                    </div>
                                 @else
                                     <a href="{{ route('contributors.list') }}"
                                         class="mt-4 inline-flex w-full items-center justify-center px-4 py-2 bg-white border border-slate-300 rounded-md font-semibold text-xs text-slate-700 uppercase tracking-widest shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition ease-in-out duration-150">
