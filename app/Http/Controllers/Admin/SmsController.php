@@ -31,7 +31,7 @@ class SmsController extends Controller
 
             Kwa mawasiliano Zaidi (RSVP)
             0654479492
-            0790511519
+            0723827440
 
             Location: https://www.google.com/maps/search/?api=1&query=-6.7587189,38.9339044
             TEXT;
