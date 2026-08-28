@@ -51,6 +51,7 @@ Route::middleware(['auth', 'verified', 'role:admin|superadmin'])->group(function
 Route::middleware(['auth', 'verified', 'role:superadmin'])->group(function () {
     Route::delete('/contributors/{contributor}', [ContributorsController::class, 'destroy'])->name('contributors.destroy');
     Route::get('/contributors/trashed', [ContributorsController::class, 'trashed'])->name('contributors.trashed');
+    Route::get('/contributors/undelivered', [ContributorsController::class, 'undelivered'])->name('contributors.undelivered');
     Route::post('/contributors/{id}/restore', [ContributorsController::class, 'restore'])->name('contributors.restore');
     Route::get('/contributors/{contributor}/sms-preview', [SmsController::class, 'smsPreview'])->name('contributors.sms-preview');
     Route::get('/contributors/{contributor}/delivery-status', [SmsController::class, 'deliveryStatus'])->name('contributors.delivery-status');

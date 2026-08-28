@@ -215,4 +215,26 @@ class ContributorsController extends Controller
         return back()->with('success', 'Contributor restored: ' . $contributor->name);
     }
 
+    public function undelivered(Request $request)
+    {
+        $contributors = Contributor::query()
+            ->whereNotNull('sms_delivery_status')
+            ->where('sms_delivery_status', '!=', 'DELIVERED')
+            ->where('sms_delivery_updated_at', '<=', now()->subMinutes(5))
+            ->when($request->filled('search'), function ($query) use ($request) {
+                $search = $request->input('search');
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('text_code', 'like', '%' . $search . '%');
+                });
+            })
+            ->orderBy('sms_delivery_updated_at')
+            ->paginate(15)
+            ->withQueryString();
+
+        return view('contributors.undelivered', [
+            'contributors' => $contributors,
+        ]);
+    }
+
 }
