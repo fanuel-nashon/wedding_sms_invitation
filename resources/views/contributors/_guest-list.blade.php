@@ -73,6 +73,11 @@
                         @endrole
 
                         @role('superadmin')
+                            <button type="button"
+                                onclick="loadSmsPreview('{{ route('contributors.sms-preview', $contributor) }}', @js($contributor->name))"
+                                class="flex-1 inline-flex items-center justify-center px-3 py-2 text-xs font-semibold uppercase tracking-widest text-violet-700 border border-violet-300 rounded-md shadow-sm hover:bg-violet-50 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2">
+                                {{ __('View SMS') }}
+                            </button>
                             <form method="POST" action="{{ route('contributors.destroy', $contributor) }}" class="flex-1"
                                 onsubmit="return confirm('{{ __('Delete this contributor? This can be undone by a superadmin.') }}');">
                                 @csrf
@@ -152,6 +157,11 @@
                                         </a>
                                     @endrole
                                     @role('superadmin')
+                                        <button type="button"
+                                            onclick="loadSmsPreview('{{ route('contributors.sms-preview', $contributor) }}', @js($contributor->name))"
+                                            class="inline-flex items-center px-3 py-1 text-xs font-semibold uppercase tracking-widest text-violet-700 border border-violet-300 rounded-md shadow-sm hover:bg-violet-50 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2">
+                                            {{ __('View SMS') }}
+                                        </button>
                                         <form method="POST" action="{{ route('contributors.destroy', $contributor) }}"
                                             onsubmit="return confirm('{{ __('Delete this contributor? This can be undone by a superadmin.') }}');">
                                             @csrf
@@ -208,3 +218,42 @@
         </div>
     </div>
 </div>
+
+@role('superadmin')
+    <x-modal name="sms-preview" maxWidth="lg">
+        <div class="p-6" x-data="{ message: '', guestName: '', copied: false }"
+            x-on:sms-preview-loaded.window="message = $event.detail.message; guestName = $event.detail.guestName; copied = false">
+            <h2 class="text-lg font-medium text-slate-900">
+                {{ __('Invitation SMS') }} <span x-show="guestName" x-text="'— ' + guestName"></span>
+            </h2>
+            <p class="mt-1 text-sm text-slate-500">{{ __('Copy this text to send it manually whenever you like.') }}</p>
+
+            <textarea readonly rows="12" x-model="message" onclick="this.select()"
+                class="mt-4 block w-full text-sm font-mono border-slate-300 rounded-md shadow-sm focus:border-amber-500 focus:ring-amber-500"></textarea>
+
+            <div class="mt-6 flex justify-end gap-3">
+                <button type="button" x-on:click="$dispatch('close-modal', 'sms-preview')"
+                    class="inline-flex items-center justify-center px-4 py-2 bg-white border border-slate-300 rounded-md font-semibold text-xs text-slate-700 uppercase tracking-widest shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
+                    {{ __('Close') }}
+                </button>
+                <button type="button"
+                    x-on:click="navigator.clipboard.writeText(message).then(() => { copied = true; setTimeout(() => copied = false, 2000); })"
+                    class="inline-flex items-center justify-center px-4 py-2 bg-amber-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest shadow-sm hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
+                    <span x-show="!copied">{{ __('Copy') }}</span>
+                    <span x-show="copied" x-cloak>{{ __('Copied!') }}</span>
+                </button>
+            </div>
+        </div>
+    </x-modal>
+
+    <script>
+        function loadSmsPreview(url, guestName) {
+            fetch(url, { headers: { 'Accept': 'application/json' } })
+                .then((response) => response.json())
+                .then((data) => {
+                    window.dispatchEvent(new CustomEvent('sms-preview-loaded', { detail: { message: data.message, guestName: guestName } }));
+                    window.dispatchEvent(new CustomEvent('open-modal', { detail: 'sms-preview' }));
+                });
+        }
+    </script>
+@endrole

@@ -43,6 +43,13 @@ class SmsController extends Controller
             TEXT;
     }
 
+    public function smsPreview(Contributor $contributor)
+    {
+        return response()->json([
+            'message' => $this->smsCreator($contributor),
+        ]);
+    }
+
     public function sendSms(Contributor $contributor)
     {
         $message = $this->smsCreator($contributor);
