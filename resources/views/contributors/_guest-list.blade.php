@@ -51,7 +51,7 @@
                                 class="flex-1 inline-flex items-center justify-center px-3 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 border border-slate-300 rounded-md shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
                                 {{ __('Edit') }}
                             </a>
-                            @if ($contributor->status === 'invited')
+                            @if ($contributor->status === 'invited' && $contributor->sms_delivery_status !== 'DELIVERED')
                                 <form method="POST" action="{{ route('contributors.send-sms', $contributor) }}" class="flex-1">
                                     @csrf
                                     <button type="submit"
@@ -186,7 +186,7 @@
                             <td class="py-3 pr-4 text-right">
                                 <div class="flex items-center justify-end gap-2">
                                     @role('admin|superadmin')
-                                        @if ($contributor->status === 'invited')
+                                        @if ($contributor->status === 'invited' && $contributor->sms_delivery_status !== 'DELIVERED')
                                             <form method="POST" action="{{ route('contributors.send-sms', $contributor) }}">
                                                 @csrf
                                                 <button type="submit"
