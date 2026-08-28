@@ -56,6 +56,7 @@ Route::middleware(['auth', 'verified', 'role:superadmin'])->group(function () {
     Route::get('/contributors/{contributor}/sms-preview', [SmsController::class, 'smsPreview'])->name('contributors.sms-preview');
     Route::get('/contributors/{contributor}/delivery-status', [SmsController::class, 'deliveryStatus'])->name('contributors.delivery-status');
     Route::post('/contributors/{contributor}/unattend', [ContributorsController::class, 'unattend'])->name('contributors.unattend');
+    Route::post('/contributors/{contributor}/resend', [SmsController::class, 'resendUndelivered'])->name('contributors.resend');
 });
 
 Route::post('/webhooks/sms-delivery', [SmsDeliveryWebhookController::class, 'handle'])->name('webhooks.sms-delivery');

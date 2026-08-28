@@ -70,13 +70,31 @@
                                 <p class="mt-1 text-xs text-slate-400" title="{{ $contributor->sms_delivery_updated_at }}">
                                     {{ __('Sent') }} {{ $contributor->sms_delivery_updated_at?->diffForHumans() }}
                                 </p>
-                                <form method="POST" action="{{ route('contributors.send-sms', $contributor) }}" class="mt-3">
-                                    @csrf
-                                    <button type="submit"
-                                        class="w-full inline-flex items-center justify-center px-3 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 border border-slate-300 rounded-md shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
-                                        {{ __('Resend') }}
+                                <div class="mt-3 flex flex-wrap gap-2">
+                                    <button type="button"
+                                        onclick="loadSmsPreview('{{ route('contributors.sms-preview', $contributor) }}', @js($contributor->name))"
+                                        class="flex-1 inline-flex items-center justify-center px-3 py-2 text-xs font-semibold uppercase tracking-widest text-violet-700 border border-violet-300 rounded-md shadow-sm hover:bg-violet-50 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2">
+                                        {{ __('View SMS') }}
                                     </button>
-                                </form>
+                                    <button type="button"
+                                        onclick="loadDeliveryStatus('{{ route('contributors.delivery-status', $contributor) }}', @js($contributor->name))"
+                                        class="flex-1 inline-flex items-center justify-center px-3 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 border border-slate-300 rounded-md shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
+                                        {{ __('Delivery Status') }}
+                                    </button>
+                                    @if ($contributor->sms_resent_at)
+                                        <span class="flex-1 inline-flex items-center justify-center text-xs font-medium text-slate-400">
+                                            {{ __('Already resent') }} {{ $contributor->sms_resent_at->diffForHumans() }}
+                                        </span>
+                                    @else
+                                        <form method="POST" action="{{ route('contributors.resend', $contributor) }}" class="flex-1">
+                                            @csrf
+                                            <button type="submit"
+                                                class="w-full inline-flex items-center justify-center px-3 py-2 text-xs font-semibold uppercase tracking-widest text-emerald-700 border border-emerald-300 rounded-md shadow-sm hover:bg-emerald-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+                                                {{ __('Resend') }}
+                                            </button>
+                                        </form>
+                                    @endif
+                                </div>
                             </div>
                         @empty
                             <p class="py-6 text-center text-sm text-slate-500">{{ __('Nothing undelivered right now.') }}</p>
@@ -109,13 +127,31 @@
                                             {{ $contributor->sms_delivery_updated_at?->diffForHumans() }}
                                         </td>
                                         <td class="py-3 pr-4 text-right">
-                                            <form method="POST" action="{{ route('contributors.send-sms', $contributor) }}">
-                                                @csrf
-                                                <button type="submit"
-                                                    class="inline-flex items-center px-3 py-1 text-xs font-semibold uppercase tracking-widest text-slate-700 border border-slate-300 rounded-md shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
-                                                    {{ __('Resend') }}
+                                            <div class="flex items-center justify-end gap-2">
+                                                <button type="button"
+                                                    onclick="loadSmsPreview('{{ route('contributors.sms-preview', $contributor) }}', @js($contributor->name))"
+                                                    class="inline-flex items-center px-3 py-1 text-xs font-semibold uppercase tracking-widest text-violet-700 border border-violet-300 rounded-md shadow-sm hover:bg-violet-50 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2">
+                                                    {{ __('View SMS') }}
                                                 </button>
-                                            </form>
+                                                <button type="button"
+                                                    onclick="loadDeliveryStatus('{{ route('contributors.delivery-status', $contributor) }}', @js($contributor->name))"
+                                                    class="inline-flex items-center px-3 py-1 text-xs font-semibold uppercase tracking-widest text-slate-700 border border-slate-300 rounded-md shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
+                                                    {{ __('Delivery Status') }}
+                                                </button>
+                                                @if ($contributor->sms_resent_at)
+                                                    <span class="text-xs font-medium text-slate-400">
+                                                        {{ __('Already resent') }} {{ $contributor->sms_resent_at->diffForHumans() }}
+                                                    </span>
+                                                @else
+                                                    <form method="POST" action="{{ route('contributors.resend', $contributor) }}">
+                                                        @csrf
+                                                        <button type="submit"
+                                                            class="inline-flex items-center px-3 py-1 text-xs font-semibold uppercase tracking-widest text-emerald-700 border border-emerald-300 rounded-md shadow-sm hover:bg-emerald-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+                                                            {{ __('Resend') }}
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            </div>
                                         </td>
                                     </tr>
                                 @empty
@@ -136,4 +172,6 @@
             </div>
         </div>
     </div>
+
+    @include('contributors._sms-modals')
 </x-app-layout>

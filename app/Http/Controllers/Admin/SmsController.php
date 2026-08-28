@@ -44,15 +44,10 @@ class SmsController extends Controller
         ]);
     }
 
-    public function sendSms(Contributor $contributor)
+    private function recordSendResult(Contributor $contributor, ?\Illuminate\Http\Client\Response $response): bool
     {
-        $message = $this->smsCreator($contributor);
-
-        $service = new SmsService();
-        $response = $service->sendSms($contributor->phone_no, $message);
-
-        if(!$response || !$response->successful()) {
-            return back()->with('failure', 'failure to send SMS invitation');
+        if (!$response || !$response->successful()) {
+            return false;
         }
 
         $body = $response->json();
@@ -66,9 +61,49 @@ class SmsController extends Controller
         $contributor->sms_delivery_updated_at = now();
         $contributor->save();
 
+        return true;
+    }
+
+    public function sendSms(Contributor $contributor)
+    {
+        $message = $this->smsCreator($contributor);
+
+        $service = new SmsService();
+        $response = $service->sendSms($contributor->phone_no, $message);
+
+        if (!$this->recordSendResult($contributor, $response)) {
+            return back()->with('failure', 'failure to send SMS invitation');
+        }
+
+        $contributor->sms_resent_at = null;
+        $contributor->save();
+
         LoggerService::log('SMS', auth()->user()->email, auth()->user()->name, 'Sent invitation SMS to: ' . $contributor->name);
 
         return back()->with('success', 'Invitation SMS sent to ' . $contributor->name);
+    }
+
+    public function resendUndelivered(Contributor $contributor)
+    {
+        if ($contributor->sms_resent_at) {
+            return back()->with('failure', 'Already resent once to ' . $contributor->name . '. Contact the guest directly if it still has not arrived.');
+        }
+
+        $message = $this->smsCreator($contributor);
+
+        $service = new SmsService();
+        $response = $service->sendSms($contributor->phone_no, $message);
+
+        if (!$this->recordSendResult($contributor, $response)) {
+            return back()->with('failure', 'failure to resend SMS invitation');
+        }
+
+        $contributor->sms_resent_at = now();
+        $contributor->save();
+
+        LoggerService::log('SMS', auth()->user()->email, auth()->user()->name, 'Resent invitation SMS to: ' . $contributor->name);
+
+        return back()->with('success', 'Invitation SMS resent to ' . $contributor->name);
     }
 
     public function deliveryStatus(Contributor $contributor)

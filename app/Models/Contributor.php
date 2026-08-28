@@ -22,10 +22,12 @@ class Contributor extends Model
         'sms_message_id',
         'sms_delivery_status',
         'sms_delivery_updated_at',
+        'sms_resent_at',
     ];
 
     protected $casts = [
         'sms_delivery_updated_at' => 'datetime',
+        'sms_resent_at' => 'datetime',
     ];
 
     public function ensureInvitationCode(): string
