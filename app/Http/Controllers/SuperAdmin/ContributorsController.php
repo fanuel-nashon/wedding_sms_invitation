@@ -128,6 +128,8 @@ class ContributorsController extends Controller
                 fn ($failure) => "Row {$failure->row()}: " . implode(', ', $failure->errors())
             )->implode(' | ');
 
+            LoggerService::log('Contributors', auth()->user()->email, auth()->user()->name, "Imported contributors from spread sheet with skipped rows - {$messages}");
+
             return back()->with('failure', "Import finished with some rows skipped - {$messages}");
         }
 
@@ -138,6 +140,8 @@ class ContributorsController extends Controller
 
     public function template()
     {
+        LoggerService::log('Contributors', auth()->user()->email, auth()->user()->name, 'Downloaded contributors import template');
+
         return Excel::download(new ContributorsTemplateExport(), 'contribuotrs_template.xlsx');
     }
 
