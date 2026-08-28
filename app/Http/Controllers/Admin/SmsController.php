@@ -66,6 +66,10 @@ class SmsController extends Controller
 
     public function sendSms(Contributor $contributor)
     {
+        if ($contributor->sms_delivery_status === 'DELIVERED') {
+            return back()->with('failure', 'Invitation already delivered to ' . $contributor->name . '. Sending again is blocked.');
+        }
+
         $message = $this->smsCreator($contributor);
 
         $service = new SmsService();
@@ -85,6 +89,10 @@ class SmsController extends Controller
 
     public function resendUndelivered(Contributor $contributor)
     {
+        if ($contributor->sms_delivery_status === 'DELIVERED') {
+            return back()->with('failure', 'Invitation already delivered to ' . $contributor->name . '. Sending again is blocked.');
+        }
+
         if ($contributor->sms_resent_at) {
             return back()->with('failure', 'Already resent once to ' . $contributor->name . '. Contact the guest directly if it still has not arrived.');
         }

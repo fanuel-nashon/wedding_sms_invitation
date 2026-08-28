@@ -53,9 +53,20 @@
                         </select>
                     </div>
 
+                    <div class="sm:w-48">
+                        <x-input-label for="sms" :value="__('SMS')" />
+                        <select id="sms" name="sms"
+                            class="block mt-1 w-full border-slate-300 focus:border-amber-500 focus:ring-amber-500 rounded-md shadow-sm">
+                            <option value="">{{ __('Any SMS status') }}</option>
+                            <option value="not_sent" @selected(request('sms') === 'not_sent')>
+                                {{ __('Not sent yet') }}
+                            </option>
+                        </select>
+                    </div>
+
                     <div class="flex flex-wrap gap-2">
                         <x-primary-button class="justify-center">{{ __('Filter') }}</x-primary-button>
-                        @if (request()->hasAny(['search', 'status']))
+                        @if (request()->hasAny(['search', 'status', 'sms']))
                             <a href="{{ route('contributors.list') }}"
                                 class="inline-flex items-center justify-center px-4 py-2 bg-white border border-slate-300 rounded-md font-semibold text-xs text-slate-700 uppercase tracking-widest shadow-sm hover:bg-slate-50">
                                 {{ __('Clear') }}

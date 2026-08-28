@@ -34,6 +34,9 @@ class ContributorsController extends Controller
             ->when($request->filled('status'), function ($query) use ($request) {
                 $query->where('status', $request->input('status'));
             })
+            ->when($request->input('sms') === 'not_sent', function ($query) {
+                $query->whereNull('sms_message_id');
+            })
             ->orderBy('name')
             ->paginate(15)
             ->withQueryString();
