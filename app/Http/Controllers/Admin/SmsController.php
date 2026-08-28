@@ -55,8 +55,22 @@ class SmsController extends Controller
             return back()->with('failure', 'failure to send SMS invitation');
         }
 
+        $contributor->sms_message_id = $response->json('messageId');
+        $contributor->sms_delivery_status = 'PENDING';
+        $contributor->sms_delivery_updated_at = now();
+        $contributor->save();
+
         LoggerService::log('SMS', auth()->user()->email, auth()->user()->name, 'Sent invitation SMS to: ' . $contributor->name);
 
         return back()->with('success', 'Invitation SMS sent to ' . $contributor->name);
+    }
+
+    public function deliveryStatus(Contributor $contributor)
+    {
+        return response()->json([
+            'status' => $contributor->sms_delivery_status,
+            'messageId' => $contributor->sms_message_id,
+            'updatedAt' => $contributor->sms_delivery_updated_at?->diffForHumans(),
+        ]);
     }
 }

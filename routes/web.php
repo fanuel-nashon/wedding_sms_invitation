@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\SmsController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SmsDeliveryWebhookController;
 use App\Http\Controllers\SuperAdmin\ContributorsController;
 use App\Http\Controllers\SuperAdmin\LogsController;
 use App\Http\Controllers\SuperAdmin\SettingsController;
@@ -52,7 +53,10 @@ Route::middleware(['auth', 'verified', 'role:superadmin'])->group(function () {
     Route::get('/contributors/trashed', [ContributorsController::class, 'trashed'])->name('contributors.trashed');
     Route::post('/contributors/{id}/restore', [ContributorsController::class, 'restore'])->name('contributors.restore');
     Route::get('/contributors/{contributor}/sms-preview', [SmsController::class, 'smsPreview'])->name('contributors.sms-preview');
+    Route::get('/contributors/{contributor}/delivery-status', [SmsController::class, 'deliveryStatus'])->name('contributors.delivery-status');
 });
+
+Route::post('/webhooks/sms-delivery', [SmsDeliveryWebhookController::class, 'handle'])->name('webhooks.sms-delivery');
 
 Route::middleware(['auth', 'verified', 'role:admin|superadmin|checker'])->group(function () {
     Route::get('/contributors/list', [ContributorsController::class, 'list'])->name('contributors.list');

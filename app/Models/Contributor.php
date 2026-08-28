@@ -18,7 +18,14 @@ class Contributor extends Model
         'assigned_seats',
         'status',
         'qr_code',
-        'text_code'
+        'text_code',
+        'sms_message_id',
+        'sms_delivery_status',
+        'sms_delivery_updated_at',
+    ];
+
+    protected $casts = [
+        'sms_delivery_updated_at' => 'datetime',
     ];
 
     public function ensureInvitationCode(): string

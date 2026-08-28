@@ -13,11 +13,13 @@ class Setting extends Model
         'sms_username',
         'sms_password',
         'sms_sender_id',
-        'sms_url'
+        'sms_url',
+        'sms_delivery_token',
     ];
 
     protected $casts = [
         'sms_token' => 'encrypted',
         'sms_password' => 'encrypted',
+        'sms_delivery_token' => 'encrypted',
     ];
 }

@@ -18,6 +18,7 @@ class SettingsController extends Controller
             'sms_password' => '',
             'sms_sender_id' => '',
             'sms_url' => '',
+            'sms_delivery_token' => '',
         ]);
 
         return view('settings.index', compact('settings'));
@@ -31,6 +32,7 @@ class SettingsController extends Controller
             'sms_url' => 'required|url',
             'sms_token' => 'nullable|string',
             'sms_password' => 'nullable|string',
+            'sms_delivery_token' => 'nullable|string',
         ]);
 
         $settings = Setting::firstOrCreate([], [
@@ -39,6 +41,7 @@ class SettingsController extends Controller
             'sms_password' => '',
             'sms_sender_id' => '',
             'sms_url' => '',
+            'sms_delivery_token' => '',
         ]);
 
         try {
@@ -52,6 +55,10 @@ class SettingsController extends Controller
 
             if ($request->filled('sms_password')) {
                 $settings->sms_password = $request->sms_password;
+            }
+
+            if ($request->filled('sms_delivery_token')) {
+                $settings->sms_delivery_token = $request->sms_delivery_token;
             }
 
             $settings->save();
