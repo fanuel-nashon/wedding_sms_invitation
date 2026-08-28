@@ -19,6 +19,10 @@
                         class="inline-flex items-center justify-center px-4 py-2 bg-white border border-slate-300 rounded-md font-semibold text-xs text-slate-700 uppercase tracking-widest shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
                         {{ __('Undelivered SMS') }}
                     </a>
+                    <a href="{{ route('contributors.list', ['sms' => 'undeliverable']) }}"
+                        class="inline-flex items-center justify-center px-4 py-2 bg-rose-50 border border-rose-300 rounded-md font-semibold text-xs text-rose-700 uppercase tracking-widest shadow-sm hover:bg-rose-100 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2">
+                        {{ __('Undeliverable') }}
+                    </a>
                     <a href="{{ route('contributors.trashed') }}"
                         class="inline-flex items-center justify-center px-4 py-2 bg-white border border-slate-300 rounded-md font-semibold text-xs text-slate-700 uppercase tracking-widest shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2">
                         {{ __('Deleted Contributors') }}
@@ -60,6 +64,15 @@
                             <option value="">{{ __('Any SMS status') }}</option>
                             <option value="not_sent" @selected(request('sms') === 'not_sent')>
                                 {{ __('Not sent yet') }}
+                            </option>
+                            <option value="pending" @selected(request('sms') === 'pending')>
+                                {{ __('Pending') }}
+                            </option>
+                            <option value="delivered" @selected(request('sms') === 'delivered')>
+                                {{ __('Delivered') }}
+                            </option>
+                            <option value="undeliverable" @selected(request('sms') === 'undeliverable')>
+                                {{ __('Undeliverable') }}
                             </option>
                         </select>
                     </div>

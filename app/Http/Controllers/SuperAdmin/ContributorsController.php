@@ -37,6 +37,15 @@ class ContributorsController extends Controller
             ->when($request->input('sms') === 'not_sent', function ($query) {
                 $query->whereNull('sms_message_id');
             })
+            ->when($request->input('sms') === 'pending', function ($query) {
+                $query->whereIn('sms_delivery_status', ['PENDING', 'ENROUTE']);
+            })
+            ->when($request->input('sms') === 'delivered', function ($query) {
+                $query->where('sms_delivery_status', 'DELIVERED');
+            })
+            ->when($request->input('sms') === 'undeliverable', function ($query) {
+                $query->whereIn('sms_delivery_status', ['FAILED', 'REJECTED', 'UNDELIVERED']);
+            })
             ->orderBy('name')
             ->paginate(15)
             ->withQueryString();
