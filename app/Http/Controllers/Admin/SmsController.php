@@ -23,23 +23,17 @@ class SmsController extends Controller
         $codeDisplay = "{$code} - {$seatLabel}";
 
         return <<<TEXT
-            Habari! 🎉
-            Familia ya Nashon Fanuel Rhobi inayo furaha kukualika
-                {$name}
+            {$name}, Salaam🎉
+            Familia ya Nashon Fanuel Rhobi inayo furaha kukualika kwenye Sherehe ya harusi ya kijana wao mpendwa David Sanawa Nashon itakayofanyika Jumapili hii tarehe 30 Agosti 2026 kuanzia saa 12:00 jioni, kwenye ukumbi wa Destiny Hall - Kwa Mathias, Kibaha-Pwani
 
-            Kwenye Sherehe ya Mapokezi (Reception) ya kijana wao mpendwa
-                David Sanawa Nashon
-            Itakayofanyika tarehe 30 Agosti 2026 kuanzia saa 12:00 jioni, kwenye ukumbi wa Destiny Hall - Kwa Mathias, Kibaha-Pwani
-
-                Code ya kadi yako ni: {$codeDisplay}
+            Code ya kadi yako ni: {$codeDisplay}
             Tafadhali taja/onesha kadi mara tu ufikapo ukumbini
 
             Kwa mawasiliano Zaidi (RSVP)
-
             0654479492
             0790511519
 
-            Location: https://maps.app.goo.gl/i3btKsTKcEbkuFnd6
+            Location: https://www.google.com/maps/search/?api=1&query=-6.7587189,38.9339044
             TEXT;
     }
 
