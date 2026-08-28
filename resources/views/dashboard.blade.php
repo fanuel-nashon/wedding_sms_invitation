@@ -137,17 +137,7 @@
                                     </h3>
                                 </div>
 
-                                @if (session('success'))
-                                    <div class="mt-4 rounded-lg bg-emerald-50 border border-emerald-200 px-3 py-2 text-xs text-emerald-700">
-                                        {{ session('success') }}
-                                    </div>
-                                @endif
-
-                                @if (session('failure'))
-                                    <div class="mt-4 rounded-lg bg-rose-50 border border-rose-200 px-3 py-2 text-xs text-rose-700">
-                                        {{ session('failure') }}
-                                    </div>
-                                @endif
+                                <x-flash-messages class="mt-4 px-3 py-2 text-xs" />
 
                                 <form method="POST" action="{{ route('users.store') }}" class="mt-4 space-y-4">
                                     @csrf

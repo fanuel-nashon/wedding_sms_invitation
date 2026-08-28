@@ -43,11 +43,7 @@
                     <h3 class="text-lg font-medium text-slate-900">{{ __('Trash') }}</h3>
                     <p class="mt-1 text-sm text-slate-500">{{ __('Deleted contributors can be restored from here.') }}</p>
 
-                    @if (session('success'))
-                        <div class="mt-4 rounded-lg bg-emerald-50 border border-emerald-200 px-4 py-3 text-sm text-emerald-700">
-                            {{ session('success') }}
-                        </div>
-                    @endif
+                    <x-flash-messages />
 
                     <!-- Mobile: stacked cards -->
                     <div class="mt-6 space-y-3 sm:hidden">

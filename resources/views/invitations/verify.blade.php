@@ -13,11 +13,7 @@
             <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
                 <div class="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-violet-400 to-violet-600"></div>
                 <div class="p-6 pl-7 text-center">
-                    @if (session('success'))
-                        <div class="mb-4 rounded-lg bg-emerald-50 border border-emerald-200 px-4 py-3 text-sm text-emerald-700">
-                            {{ session('success') }}
-                        </div>
-                    @endif
+                    <x-flash-messages class="mb-4 px-4 py-3 text-sm" />
 
                     <p class="text-sm text-slate-500">{{ __('Entry code') }}</p>
                     <h3 class="text-lg font-semibold tracking-widest text-slate-900">{{ $contributor->text_code }}</h3>

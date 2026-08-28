@@ -4,17 +4,7 @@
         <h3 class="text-lg font-medium text-slate-900">{{ __('Guest List') }}</h3>
         <p class="mt-1 text-sm text-slate-500">{{ __('All contributors invited to the reception.') }}</p>
 
-        @if (session('success'))
-            <div class="mt-4 rounded-lg bg-emerald-50 border border-emerald-200 px-4 py-3 text-sm text-emerald-700">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if (session('failure'))
-            <div class="mt-4 rounded-lg bg-rose-50 border border-rose-200 px-4 py-3 text-sm text-rose-700">
-                {{ session('failure') }}
-            </div>
-        @endif
+        <x-flash-messages />
 
         @php
             $statusStyles = [
@@ -79,7 +69,7 @@
                                 {{ __('View SMS') }}
                             </button>
                             <form method="POST" action="{{ route('contributors.destroy', $contributor) }}" class="flex-1"
-                                onsubmit="return confirm('{{ __('Delete this contributor? This can be undone by a superadmin.') }}');">
+                                onsubmit="return confirmContributorDelete(this, @js($contributor->name));">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit"
@@ -163,7 +153,7 @@
                                             {{ __('View SMS') }}
                                         </button>
                                         <form method="POST" action="{{ route('contributors.destroy', $contributor) }}"
-                                            onsubmit="return confirm('{{ __('Delete this contributor? This can be undone by a superadmin.') }}');">
+                                            onsubmit="return confirmContributorDelete(this, @js($contributor->name));">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit"
@@ -254,6 +244,24 @@
                     window.dispatchEvent(new CustomEvent('sms-preview-loaded', { detail: { message: data.message, guestName: guestName } }));
                     window.dispatchEvent(new CustomEvent('open-modal', { detail: 'sms-preview' }));
                 });
+        }
+
+        function confirmContributorDelete(form, guestName) {
+            Swal.fire({
+                title: 'Delete this contributor?',
+                text: guestName + ' — this can be undone by a superadmin.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Delete',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#e11d48',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+
+            return false;
         }
     </script>
 @endrole

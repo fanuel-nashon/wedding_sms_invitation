@@ -18,17 +18,7 @@
                         {{ __('Credentials used to send SMS invitations via messaging-service.co.tz.') }}
                     </p>
 
-                    @if (session('success'))
-                        <div class="mt-4 rounded-lg bg-emerald-50 border border-emerald-200 px-4 py-3 text-sm text-emerald-700">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-
-                    @if (session('failure'))
-                        <div class="mt-4 rounded-lg bg-rose-50 border border-rose-200 px-4 py-3 text-sm text-rose-700">
-                            {{ session('failure') }}
-                        </div>
-                    @endif
+                    <x-flash-messages />
 
                     <form method="POST" action="{{ route('settings.update') }}" class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
                         @csrf

@@ -16,17 +16,7 @@
                     <h3 class="text-lg font-medium text-slate-900">{{ __('Edit Contributor') }}</h3>
                     <p class="mt-1 text-sm text-slate-500">{{ __('Update this guest\'s details.') }}</p>
 
-                    @if (session('success'))
-                        <div class="mt-4 rounded-lg bg-emerald-50 border border-emerald-200 px-4 py-3 text-sm text-emerald-700">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-
-                    @if (session('failure'))
-                        <div class="mt-4 rounded-lg bg-rose-50 border border-rose-200 px-4 py-3 text-sm text-rose-700">
-                            {{ session('failure') }}
-                        </div>
-                    @endif
+                    <x-flash-messages />
 
                     <form method="POST" action="{{ route('contributors.update', $contributor) }}" class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
                         @csrf
