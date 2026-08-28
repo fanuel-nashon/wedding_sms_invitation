@@ -93,9 +93,18 @@
                                 </button>
                             </form>
                         @elseif ($contributor->status === 'attended')
-                            <span class="flex-1 inline-flex items-center justify-center text-xs font-medium text-emerald-600">
-                                {{ __('Checked in') }}
-                            </span>
+                            <div class="flex-1 flex items-center justify-center gap-2">
+                                <span class="text-xs font-medium text-emerald-600">{{ __('Checked in') }}</span>
+                                @role('superadmin')
+                                    <form method="POST" action="{{ route('contributors.unattend', $contributor) }}"
+                                        onsubmit="return confirm('{{ __('Reverse attendance for this guest?') }}');">
+                                        @csrf
+                                        <button type="submit" class="text-xs font-semibold uppercase tracking-widest text-slate-500 underline hover:text-slate-700">
+                                            {{ __('Undo') }}
+                                        </button>
+                                    </form>
+                                @endrole
+                            </div>
                         @endif
                     </div>
                 </div>
@@ -197,7 +206,18 @@
                                             </button>
                                         </form>
                                     @elseif ($contributor->status === 'attended')
-                                        <span class="text-xs font-medium text-emerald-600">{{ __('Checked in') }}</span>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-xs font-medium text-emerald-600">{{ __('Checked in') }}</span>
+                                            @role('superadmin')
+                                                <form method="POST" action="{{ route('contributors.unattend', $contributor) }}"
+                                                    onsubmit="return confirm('{{ __('Reverse attendance for this guest?') }}');">
+                                                    @csrf
+                                                    <button type="submit" class="text-xs font-semibold uppercase tracking-widest text-slate-500 underline hover:text-slate-700">
+                                                        {{ __('Undo') }}
+                                                    </button>
+                                                </form>
+                                            @endrole
+                                        </div>
                                     @endif
                                 </div>
                             </td>

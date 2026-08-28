@@ -55,6 +55,18 @@ class ContributorsController extends Controller
         return back()->with('success', 'Attendance confirmed for ' . $contributor->name);
     }
 
+    public function unattend(Contributor $contributor)
+    {
+        if ($contributor->status === 'attended') {
+            $contributor->status = 'invited';
+            $contributor->save();
+
+            LoggerService::log('Verification', auth()->user()->email, auth()->user()->name, 'Reversed attendance: ' . $contributor->name);
+        }
+
+        return back()->with('success', 'Attendance reversed for ' . $contributor->name);
+    }
+
     public function updateSeats(Request $request, Contributor $contributor)
     {
         $request->validate([

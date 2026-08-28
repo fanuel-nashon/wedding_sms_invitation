@@ -45,6 +45,12 @@ class SmsService
                     'body' => $response->body(),
                     'to' => $to,
                 ]);
+            } else {
+                Log::info('SMS API response', [
+                    'status' => $response->status(),
+                    'body' => $response->body(),
+                    'to' => $to,
+                ]);
             }
 
             return $response;

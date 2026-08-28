@@ -55,7 +55,13 @@ class SmsController extends Controller
             return back()->with('failure', 'failure to send SMS invitation');
         }
 
-        $contributor->sms_message_id = $response->json('messageId');
+        $body = $response->json();
+
+        $contributor->sms_message_id = data_get($body, 'messageId')
+            ?? data_get($body, '0.messageId')
+            ?? data_get($body, 'messages.0.messageId')
+            ?? data_get($body, 'results.0.messageId')
+            ?? data_get($body, 'data.messageId');
         $contributor->sms_delivery_status = 'PENDING';
         $contributor->sms_delivery_updated_at = now();
         $contributor->save();
